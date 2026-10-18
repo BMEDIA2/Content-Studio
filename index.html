@@ -48,6 +48,8 @@ svg.i{width:16px;height:16px;flex:none;stroke:currentColor;fill:none;stroke-widt
 .brand{display:flex;align-items:center;gap:10px;padding:2px 8px 16px;font-weight:800;font-size:16.5px;letter-spacing:-.3px}
 .brand .logo{width:32px;height:32px;border-radius:10px;background:var(--grad);display:grid;place-items:center;color:#fff;box-shadow:0 6px 16px -4px color-mix(in srgb,var(--accent) 60%,transparent)}
 .brand small{display:block;font:500 11px Inter,sans-serif;color:var(--muted);letter-spacing:0}
+.sclose{margin-left:auto;width:30px;height:30px;flex:none;border-radius:9px;display:grid;place-items:center;color:var(--muted);transition:background .12s,color .12s}.sclose:hover{background:var(--hover,color-mix(in srgb,var(--muted) 14%,transparent));color:var(--ink)}
+@media (min-width:861px){.side.hid{display:none}.burger.show{display:grid}}
 .slabel{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);padding:16px 8px 6px;display:flex;justify-content:space-between;align-items:center}
 .slabel button{color:var(--muted);width:22px;height:22px;border-radius:6px;display:grid;place-items:center}
 .slabel button:hover{background:var(--sideHover);color:var(--text)}
@@ -605,9 +607,10 @@ function mini(t){const pil=pillar(t.pillar);const sp=prop(P().statusPropId);retu
 function pillarRows(){const p=P();return p.pillars.map(x=>({label:x.name,color:x.color,n:p.tasks.filter(t=>t.pillar===x.id).length,goal:+x.goal||0}))}
 
 /* ---------- layout ---------- */
+const wide=()=>innerWidth>860;
 function sidebar(){const p=P();
-  return `<aside class="side ${U.side?'open':''}">
-  <div class="brand"><div class="logo">${ic('sparkle',17)}</div><div>Content Studio<small>Instagram · YouTube · Stories</small></div></div>
+  return `<aside class="side ${U.side?'open':''} ${S.sideHidden?'hid':''}">
+  <div class="brand"><div class="logo">${ic('sparkle',17)}</div><div>Content Studio<small>Instagram · YouTube · Stories</small></div><button class="sclose" data-a="sideClose" title="Cerrar barra lateral" aria-label="Cerrar barra lateral">${ic(wide()?'chevL':'x')}</button></div>
   <div class="slabel">Proyectos <button data-a="newProj" title="Nuevo proyecto">${ic('plus',14)}</button></div>
   ${S.projects.map(x=>`<button class="sitem ${x.id===p.id?'on':''}" data-a="proj" data-id="${x.id}"><span class="ic">${esc(x.emoji)}</span><span class="tx">${esc(x.name)}</span></button>`).join('')}
   <div class="slabel m-only">Vistas</div>
@@ -624,7 +627,7 @@ function sidebar(){const p=P();
    <button class="sitem" data-a="importData"><span class="ic">${ic('upload')}</span>Restaurar copia</button>
   </div></aside>${U.side?'<div class="scrim" data-a="burger"></div>':''}`}
 function header(){const p=P();const vt=S.view==='page'?'Página':(VIEWS.find(v=>v[0]===S.view)||VIEWS[0])[1];
-  return `<div class="top"><button class="burger" data-a="burger">${ic('menu')}</button><div style="min-width:0"><div class="crumb">${esc(p.emoji)} ${esc(p.name)}</div><h1>${esc(vt)}</h1></div><div class="grow"></div>
+  return `<div class="top"><button class="burger ${S.sideHidden?'show':''}" data-a="burger" title="Abrir barra lateral" aria-label="Abrir barra lateral">${ic('menu')}</button><div style="min-width:0"><div class="crumb">${esc(p.emoji)} ${esc(p.name)}</div><h1>${esc(vt)}</h1></div><div class="grow"></div>
   ${syncPill()}<button class="btn hide-m" data-a="asana" title="Importar de Asana">${ic('inbox')}Importar</button><button class="btn hide-m" data-a="pushM" data-m="props">${ic('sliders')}Propiedades</button><button class="btn pri" data-a="newTask">${ic('plus')}Nuevo contenido</button></div>
   <div class="tabs"><div class="seg">${VIEWS.map(([v,l,i])=>`<button class="tab ${S.view===v?'on':''}" data-a="nav" data-v="${v}">${ic(i,15)}${l}</button>`).join('')}</div></div>`}
 function filterBar(extra){const p=P();let o='<option value="">Filtro: todo</option>';
@@ -1083,7 +1086,8 @@ setInterval(()=>{if(SB.user&&document.visibilityState==='visible'&&!SB.timer)sbP
 
 /* ---------- actions ---------- */
 const A={
-  burger(){U.side=!U.side;renderApp()},
+  burger(){if(wide()){S.sideHidden=!S.sideHidden;save()}else U.side=!U.side;renderApp()},
+  sideClose(){if(wide()){S.sideHidden=true;save()}else U.side=false;renderApp()},
   colGo(el){const i=+el.dataset.i;const b=$('.board');const c=b&&b.querySelectorAll('.col')[i];if(c)b.scrollTo({left:c.offsetLeft-14,behavior:'smooth'})},
   calPick(el){U.calSel=el.dataset.date;renderApp()},
   sbNow(){sbPull().then(()=>renderModal()).catch(e=>{setSync('err',authErr(e));renderModal()})},
