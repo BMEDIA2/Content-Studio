@@ -568,6 +568,49 @@ body.tdrag,body.tdrag *{user-select:none;-webkit-user-select:none}
 #dgline{position:fixed;height:4px;border-radius:4px;background:var(--accent);z-index:90;pointer-events:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
 .dg-ghost{position:fixed;z-index:91;pointer-events:none;border:2px dashed var(--accent);border-radius:16px;background:color-mix(in srgb,var(--accent) 10%,var(--panel));display:grid;place-items:center;font-weight:700;color:var(--accent);opacity:.9;box-shadow:var(--shLg)}
 body.dg-on,body.dg-on *{cursor:grabbing!important;user-select:none!important;-webkit-user-select:none!important}
+
+/* seleccion multiple en board */
+.tcard{position:relative}
+.tsel{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line);background:var(--panel);display:grid;place-items:center;color:transparent;opacity:0;transition:opacity .12s,background .12s;z-index:2}
+.tcard:hover .tsel,.board.selecting .tsel{opacity:1}
+@media (hover:none){.tsel{opacity:.75}}
+.tsel:hover{border-color:var(--accent)}
+.tcard.sel{outline:2px solid var(--accent);outline-offset:-1px;box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 18%,transparent)}
+.tcard.sel .tsel{opacity:1;background:var(--accent);border-color:var(--accent);color:#fff}
+.tcard .tt{padding-right:22px}
+.dragcount{position:fixed;top:-100px;left:0;padding:8px 14px;border-radius:10px;background:var(--accent);color:#fff;font-weight:700;font-size:13px}
+.bulk{position:fixed;left:0;right:0;margin:0 auto;width:max-content;bottom:22px;z-index:60;display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shLg);padding:8px 10px 8px 16px;max-width:calc(100vw - 24px);animation:popIn .18s ease}
+.bk-n{white-space:nowrap;font-size:13.5px}.bk-n b{color:var(--accent);font-size:15px}
+.bk-l{color:var(--muted);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;padding-left:10px;border-left:1px solid var(--line)}
+.bk-o{display:flex;gap:4px;overflow-x:auto;min-width:0}
+.bk-o button{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font-size:12.5px;font-weight:600;padding:6px 10px;border-radius:9px;border:1px solid var(--line);background:var(--panel)}
+.bk-o button:hover{background:var(--hover);border-color:var(--accent)}
+.bk-del,.bk-x{width:32px;height:32px;flex:none;border-radius:9px;display:grid;place-items:center;color:var(--muted)}
+.bk-del:hover{color:#e5484d;background:var(--hover)}.bk-x:hover{background:var(--hover);color:var(--text)}
+@media (max-width:760px){.bulk{bottom:calc(76px + env(safe-area-inset-bottom));flex-wrap:wrap;padding:10px;gap:8px;width:calc(100vw - 20px)}.bk-l{border:0;padding:0}.bk-o{order:3;flex-basis:100%}}
+/* columna publicado */
+.pubcol{background:color-mix(in srgb,#10b981 5%,transparent);border:1.5px dashed color-mix(in srgb,#10b981 40%,var(--line))}
+.pubdrop{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:26px 12px;color:var(--muted);font-size:12.5px}
+.pubdrop svg{color:#10b981}.pubdrop b{color:var(--text);font-size:13.5px}
+.pubcol.over{background:color-mix(in srgb,#10b981 14%,transparent);border-color:#10b981}
+/* vista publicados */
+.pgrp{margin-top:22px}.pgrp h3{display:flex;align-items:center;gap:8px;font-size:14px;margin:0 0 8px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.pgrp h3 .n{font-size:11.5px;background:var(--hover);border-radius:99px;padding:2px 8px}
+.prow{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:6px;cursor:pointer;box-shadow:var(--sh1)}
+.prow:hover{border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
+.prow .cbar{width:4px;align-self:stretch;border-radius:2px;background:var(--c);flex:none}
+.pr-b{flex:1;min-width:0}.pr-t{font-weight:600;margin-bottom:4px}
+.pr-d{color:var(--muted);font-size:12.5px;white-space:nowrap}
+@media (max-width:760px){.prow{flex-wrap:wrap}.prow .btn{margin-left:auto}}
+/* lista: todas las columnas a la vista */
+.lwrap{max-height:calc(100vh - 230px);overflow:auto}
+.lwrap .lt th:first-child,.lwrap .lt td.title{position:sticky;left:0;z-index:1;background:var(--panel);box-shadow:1px 0 0 var(--line)}
+.lwrap .lt th{z-index:2}.lwrap .lt th:first-child{z-index:3}
+.lwrap .lt tr:hover td.title{background:var(--hover)}
+.lwrap table.lt{width:max-content;min-width:100%}.lwrap .lt td .chips{flex-wrap:wrap;max-width:260px}.lwrap .lt td.title{min-width:240px;max-width:320px}
+.lcol .pi{color:transparent}.lcol.on .pi{background:var(--accent);color:#fff;border-color:var(--accent)}
+.mprops{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:6px}
+.mp{display:inline-flex;align-items:center;gap:5px;font-size:12px}.mp small{color:var(--muted);font-size:11px}
 </style>
 </head>
 <body>
@@ -592,7 +635,7 @@ const fmtD=s=>s?parseD(s).toLocaleDateString('es',{day:'numeric',month:'short'})
 const byDate=(a,b)=>(a.date||'9999').localeCompare(b.date||'9999');
 const nextColor=arr=>COLORS[arr.length%COLORS.length];
 const PTYPES={select:{l:'Selección',i:'◉'},multi:{l:'Etiquetas múltiples',i:'☰'},text:{l:'Texto',i:'T'},number:{l:'Número',i:'#'},date:{l:'Fecha',i:'📅'},check:{l:'Casilla',i:'☑'},url:{l:'Enlace',i:'🔗'}};
-const VIEWS=[['overview','Overview','home'],['board','Board','board'],['list','Lista','list'],['calendar','Calendario','cal'],['dashboard','Dashboard','chart'],['pillars','Pilares','layers']];
+const VIEWS=[['overview','Overview','home'],['board','Board','board'],['list','Lista','list'],['calendar','Calendario','cal'],['published','Publicados','check'],['dashboard','Dashboard','chart'],['pillars','Pilares','layers']];
 const ICONS={
  home:'<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/>',
  board:'<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 7v7M12 7v4M16 7v9"/>',
@@ -666,7 +709,7 @@ function newProject(name,sample){
 }
 
 let S;
-const U={cmtDraft:{},cmtEdit:null,cmtEditVal:'',ms:[],q:'',f:'',sort:{k:'date',d:1},side:false,np:{type:'select'},pilColor:null,drag:null,lastView:null};
+const U={selT:new Set(),cmtDraft:{},cmtEdit:null,cmtEditVal:'',ms:[],q:'',f:'',sort:{k:'date',d:1},side:false,np:{type:'select'},pilColor:null,drag:null,lastView:null};
 function norm(){
   if(!S||!Array.isArray(S.projects)||!S.projects.length){const p=newProject('Mi marca personal',true);S={projects:[p],cur:p.id,view:'overview',theme:'light'}}
   if(!S.projects.find(p=>p.id===S.cur))S.cur=S.projects[0].id;
@@ -750,27 +793,43 @@ function card(t){const p=P();const pil=pillar(t.pillar);
   const ck=t.check.length?`<span>${ic('checks')} ${t.check.filter(c=>c.d).length}/${t.check.length}</span>`:'';
   const meta=(t.date?`<span class="${isLate(t)?'late':''}">${ic('cal')} ${fmtD(t.date)}</span>`:'')+(pil?`<span>${ic('layers')} ${esc(pil.name)}</span>`:'')+ck+((t.comments||[]).length?`<span>${ic('msg')} ${t.comments.length}</span>`:'');
   const cc=cardColor(t);
-  return `<div class="tcard ${cc?'tint':''}" draggable="${isTouch()?'false':'true'}" data-drag="${t.id}" data-a="openTask" data-id="${t.id}" style="--c:${cc||'var(--line)'}"><div class="pbar"></div>
+  const sl=U.selT.has(t.id);
+  return `<div class="tcard ${cc?'tint':''} ${sl?'sel':''}" draggable="${isTouch()?'false':'true'}" data-drag="${t.id}" data-a="openTask" data-id="${t.id}" style="--c:${cc||'var(--line)'}"><div class="pbar"></div><button class="tsel" data-a="tSel" data-id="${t.id}" title="Seleccionar (o Ctrl + clic en la tarjeta)" aria-label="Seleccionar">${ic('check',12)}</button>
   <div class="tt">${esc(t.title||'Sin título')}</div>${chips?`<div class="chips">${chips}</div>`:''}
   ${meta?`<div class="meta">${meta}</div>`:''}</div>`}
 function ensureOrder(p){const miss=p.tasks.filter(t=>typeof t.order!=='number');if(!miss.length)return;let m=Math.max(0,...p.tasks.filter(t=>typeof t.order==='number').map(t=>t.order));miss.sort(byDate).forEach(t=>{t.order=++m});save()}
-function vBoard(){const p=P();ensureOrder(p);const ts=filtered();const groupable=p.props.filter(x=>x.type==='select');
+function vBoard(){const p=P();ensureOrder(p);const all=filtered();const ts=all.filter(t=>!isDone(t));const nPub=all.length-ts.length;const sp=prop(p.statusPropId);const doneO=sp?sp.options.find(o=>o.done):null;const groupable=p.props.filter(x=>x.type==='select');
   let g=p.boardGroup;if(g!=='__pillar'&&!prop(g)){g=p.boardGroup=(groupable[0]||{}).id||'__pillar'}
   const sel=`<span class="muted tlab" style="margin-left:8px">Columnas por</span><select class="inp" data-c="groupBy">${groupable.map(x=>`<option value="${x.id}" ${g===x.id?'selected':''}>${esc(x.name)}</option>`).join('')}<option value="__pillar" ${g==='__pillar'?'selected':''}>Pilar</option></select>`+colorSel();
   let cols;
   if(g==='__pillar'){cols=p.pillars.map(x=>({id:x.id,label:x.name,color:x.color}));const valid=new Set(cols.map(c=>c.id));cols.forEach(c=>c.items=ts.filter(t=>t.pillar===c.id));cols.push({id:'',label:'Sin pilar',color:'#94a3b8',items:ts.filter(t=>!valid.has(t.pillar))})}
-  else{const gp=prop(g);const valid=new Set(gp.options.map(o=>o.id));cols=gp.options.map(o=>({id:o.id,label:o.label,color:o.color,items:ts.filter(t=>t.props[gp.id]===o.id)}));cols.push({id:'',label:'Sin '+gp.name.toLowerCase(),color:'#94a3b8',items:ts.filter(t=>!valid.has(t.props[gp.id]))})}
+  else{const gp=prop(g);const valid=new Set(gp.options.map(o=>o.id));cols=gp.options.filter(o=>!(gp.id===p.statusPropId&&o.done)).map(o=>({id:o.id,label:o.label,color:o.color,items:ts.filter(t=>t.props[gp.id]===o.id)}));cols.push({id:'',label:'Sin '+gp.name.toLowerCase(),color:'#94a3b8',items:ts.filter(t=>!valid.has(t.props[gp.id]))})}
   if(!cols[cols.length-1].items.length)cols.pop();
   const nav=`<div class="colnav">${cols.map((c,i)=>`<button data-a="colGo" data-i="${i}" class="${i===(U.colI||0)?'on':''}"><span class="dot" style="--c:${c.color}"></span>${esc(c.label)}<span class="n">${c.items.length}</span></button>`).join('')}</div>`;
-  return filterBar(sel)+nav+`<div class="board">${cols.map(c=>`<div class="col" data-drop="col" data-p="${g}" data-val="${c.id}">
+  return filterBar(sel)+nav+`<div class="board ${U.selT.size?'selecting':''}">${cols.map(c=>`<div class="col" data-drop="col" data-p="${g}" data-val="${c.id}">
    <div class="colh"><span class="dot" style="--c:${c.color}"></span>${esc(c.label)}<span class="n">${c.items.length}</span><span class="grow"></span><button class="btn ghost sm icon" data-a="newTask" data-p="${g}" data-v="${c.id}" title="Añadir">${ic('plus',14)}</button></div>
    ${c.items.sort((a,b)=>a.order-b.order).map(card).join('')}
    <button class="addcard" data-a="newTask" data-p="${g}" data-v="${c.id}">${ic('plus',14)} Añadir contenido</button></div>`).join('')}
+   ${doneO?`<div class="col pubcol" data-drop="pub"><div class="colh"><span class="dot" style="--c:${doneO.color}"></span>${esc(doneO.label)}<span class="n">${nPub}</span></div><div class="pubdrop">${ic('check',22)}<b>Suelta aquí para publicar</b><span>Sale del board y se guarda en <u>Publicados</u></span></div><button class="addcard" data-a="nav" data-v="published">${ic('list',14)} Ver publicados${nPub?' ('+nPub+')':''}</button></div>`:''}
    <button class="addcol" data-a="addCol">${ic('plus')} Añadir columna</button></div>`}
+function bulkBar(){[...U.selT].forEach(id=>{if(!task(id))U.selT.delete(id)});if(S.view!=='board'||!U.selT.size)return '';const p=P();let g=p.boardGroup;let opts;
+  if(g==='__pillar')opts=p.pillars.map(x=>({id:x.id,label:x.name,color:x.color}));else{const gp=prop(g);opts=gp?gp.options:[]}
+  const n=U.selT.size;
+  return `<div class="bulk"><div class="bk-n"><b>${n}</b> ${n>1?'seleccionados':'seleccionado'}</div><div class="bk-l">Mover a</div><div class="bk-o">${opts.map(o=>`<button data-a="bulkMove" data-p="${g}" data-v="${o.id}"><span class="dot" style="--c:${o.color}"></span>${esc(o.label)}</button>`).join('')}</div><button class="bk-del" data-a="bulkDel" title="Eliminar seleccionados">${ic('trash',15)}</button><button class="bk-x" data-a="selClear" title="Quitar selección (Esc)">${ic('x',15)}</button></div>`}
+function vPub(){const p=P();const sp=prop(p.statusPropId);const doneO=sp&&sp.options.find(o=>o.done);
+  if(!doneO)return `<div class="empty">Ninguna opción de estado está marcada como "publicado". Ábrela en <b>Propiedades</b> para activarla.</div>`;
+  const ts=filtered().filter(isDone).sort((a,b)=>(b.date||'').localeCompare(a.date||''));const t0=todayS().slice(0,7);
+  const groups={};ts.forEach(t=>{const k=t.date?t.date.slice(0,7):'';(groups[k]=groups[k]||[]).push(t)});
+  const mlabel=k=>{if(!k)return 'Sin fecha';let l=new Date(+k.slice(0,4),+k.slice(5,7)-1,1).toLocaleDateString('es',{month:'long',year:'numeric'});return l.charAt(0).toUpperCase()+l.slice(1)};
+  const chipProps=p.props.filter(x=>(x.type==='select'||x.type==='multi')&&x.id!==p.statusPropId);
+  const row=t=>{const pl=pillar(t.pillar);const cc=cardColor(t);return `<div class="prow" data-a="openTask" data-id="${t.id}" style="--c:${cc||'var(--line)'}"><span class="cbar"></span><span class="ck on">✓</span><div class="pr-b"><div class="pr-t">${esc(t.title||'Sin título')}</div><div class="chips">${pl?pill({label:pl.name,color:pl.color}):''}${chipProps.map(x=>valPills(t,x)).join('')}</div></div><div class="pr-d">${esc(fmtD(t.date))}</div><button class="btn sm ghost" data-a="unpub" data-id="${t.id}" title="Volver a ponerlo en el board">↩ Al board</button></div>`};
+  const kps=`<div class="kpis">${kp('Publicados',ts.length,'en este proyecto','check','#10b981')}${kp('Este mes',(groups[t0]||[]).length,mlabel(t0).toLowerCase(),'cal','#3b82f6')}</div>`;
+  return filterBar('')+kps+(ts.length?Object.keys(groups).sort((a,b)=>!a?1:!b?-1:b.localeCompare(a)).map(k=>`<div class="pgrp"><h3>${mlabel(k)}<span class="n">${groups[k].length}</span></h3>${groups[k].map(row).join('')}</div>`).join(''):`<div class="empty">Aún no hay contenido publicado. Arrastra una tarjeta a la columna <b>${esc(doneO.label)}</b> del board.</div>`)}
 function colorSel(){const p=P();const by=p.cardColor||'auto';
   return `<span class="muted tlab" style="margin-left:8px">Color por</span><select class="inp" data-c="colorBy"><option value="auto" ${by==='auto'?'selected':''}>Automático</option><option value="pillar" ${by==='pillar'?'selected':''}>Pilar</option>${colorProps().map(x=>`<option value="${x.id}" ${by===x.id?'selected':''}>${esc(x.name)}</option>`).join('')}</select>`}
-function vList(){const p=P();let ts=filtered();const s=U.sort;
-  const cols=[{k:'title',l:'Contenido'},{k:'date',l:'Publicación'},{k:'pillar',l:'Pilar'}].concat(p.props.map(x=>({k:x.id,l:x.name})));
+function listTools(){const p=P();const nh=(p.listHidden||[]).length;return `<button class="btn sm" data-a="lcolMenu">${ic('sliders',14)}Columnas${nh?` <span class="muted">(${nh} ocultas)</span>`:''}</button><button class="btn sm ${p.listHidePub?'':'ghost'}" data-a="lpubTg" title="Mostrar u ocultar lo publicado">${ic('check',14)}${p.listHidePub?'Publicados ocultos':'Con publicados'}</button>`}
+function vList(){const p=P();const hid=new Set(p.listHidden||[]);let ts=filtered();if(p.listHidePub)ts=ts.filter(t=>!isDone(t));const s=U.sort;const vp=p.props.filter(x=>!hid.has(x.id));
+  const cols=[{k:'title',l:'Contenido'},{k:'date',l:'Publicación'},{k:'pillar',l:'Pilar'}].filter(c=>!hid.has(c.k)).concat(vp.map(x=>({k:x.id,l:x.name})));
   const key=(t,k)=>{if(k==='title')return (t.title||'').toLowerCase();if(k==='date')return t.date||'9999';if(k==='pillar'){const x=pillar(t.pillar);return x?x.name.toLowerCase():'~'}
     const pr=prop(k);if(!pr)return '';const v=t.props[k];
     if(pr.type==='select'){const i=pr.options.findIndex(o=>o.id===v);return i<0?999:i}
@@ -779,15 +838,15 @@ function vList(){const p=P();let ts=filtered();const s=U.sort;
     if(pr.type==='check')return v?0:1;
     return v?String(v).toLowerCase():'~'};
   ts=ts.slice().sort((a,b)=>{const x=key(a,s.k),y=key(b,s.k);return (x<y?-1:x>y?1:0)*s.d});
-  return filterBar(colorSel())+`<div class="tablewrap"><table class="lt"><thead><tr>${cols.map(c=>`<th data-a="sort" data-k="${c.k}">${esc(c.l)}${s.k===c.k?(s.d>0?' ↑':' ↓'):''}</th>`).join('')}</tr></thead><tbody>
-  ${ts.map(t=>{const pil=pillar(t.pillar);const d=isDone(t);return `<tr data-a="openTask" data-id="${t.id}"><td class="title"><span class="ck ${d?'on':''}">${d?'✓':''}</span>${(()=>{const cc=cardColor(t);return cc?`<span class="cbar" style="--c:${cc}"></span>`:''})()}${esc(t.title||'Sin título')}</td><td class="${isLate(t)?'late':''}">${esc(fmtD(t.date))}</td><td>${pil?pill({label:pil.name,color:pil.color}):''}</td>${p.props.map(x=>`<td><div class="chips">${valText(t,x)}</div></td>`).join('')}</tr>`}).join('')}
+  return filterBar(colorSel()+listTools())+`<div class="tablewrap lwrap"><table class="lt"><thead><tr>${cols.map(c=>`<th data-a="sort" data-k="${c.k}">${esc(c.l)}${s.k===c.k?(s.d>0?' ↑':' ↓'):''}</th>`).join('')}</tr></thead><tbody>
+  ${ts.map(t=>{const pil=pillar(t.pillar);const d=isDone(t);return `<tr data-a="openTask" data-id="${t.id}"><td class="title"><span class="ck ${d?'on':''}">${d?'✓':''}</span>${(()=>{const cc=cardColor(t);return cc?`<span class="cbar" style="--c:${cc}"></span>`:''})()}${esc(t.title||'Sin título')}</td>${hid.has('date')?'':`<td class="${isLate(t)?'late':''}">${esc(fmtD(t.date))}</td>`}${hid.has('pillar')?'':`<td>${pil?pill({label:pil.name,color:pil.color}):''}</td>`}${vp.map(x=>`<td><div class="chips">${valText(t,x)}</div></td>`).join('')}</tr>`}).join('')}
   <tr class="quick"><td colspan="${cols.length}"><input id="quickAdd" data-k="quickAdd" placeholder="+ Escribe un título y pulsa Enter para añadir contenido"></td></tr></tbody></table></div>`}
-function vListM(){const p=P();const ts=filtered();const k=U.msort||'date';const sp=prop(p.statusPropId);
+function vListM(){const p=P();const hid=new Set(p.listHidden||[]);let ts=filtered();if(p.listHidePub)ts=ts.filter(t=>!isDone(t));const vp=p.props.filter(x=>!hid.has(x.id)&&x.id!==p.statusPropId);const k=U.msort||'date';const sp=prop(p.statusPropId);
   const key={date:t=>t.date||'9999',title:t=>(t.title||'').toLowerCase(),status:t=>{if(!sp)return 0;const i=sp.options.findIndex(o=>o.id===t.props[sp.id]);return i<0?999:i},pillar:t=>{const x=pillar(t.pillar);return x?x.name.toLowerCase():'~'}}[k];
   const list=ts.slice().sort((a,b)=>{const x=key(a),y=key(b);return x<y?-1:x>y?1:0});
   const so=`<select class="inp" data-c="msort">${[['date','Ordenar: fecha'],['status','Ordenar: estado'],['pillar','Ordenar: pilar'],['title','Ordenar: título']].map(([v,l])=>`<option value="${v}" ${k===v?'selected':''}>${l}</option>`).join('')}</select>`;
-  return filterBar(so)+`<input class="inp mquick" id="quickAdd" data-k="quickAdd" placeholder="+ Escribe un título y pulsa Enter" enterkeyhint="done">
-  ${list.map(t=>{const cc=cardColor(t);const pl=pillar(t.pillar);return `<div class="mrow" data-a="openTask" data-id="${t.id}" style="--c:${cc||'var(--line)'}"><span class="cbar"></span><div class="mb"><div class="mt">${isDone(t)?'<span class="ck on">✓</span>':''}${esc(t.title||'Sin título')}</div><div class="chips">${sp?valPills(t,sp):''}${pl?pill({label:pl.name,color:pl.color}):''}</div></div><div class="md ${isLate(t)?'late':''}">${esc(fmtD(t.date))}${(t.comments||[]).length?`<div style="margin-top:4px">${ic('msg',12)} ${t.comments.length}</div>`:''}</div></div>`}).join('')||'<div class="empty">No hay contenido con este filtro.</div>'}`}
+  return filterBar(so+listTools())+`<input class="inp mquick" id="quickAdd" data-k="quickAdd" placeholder="+ Escribe un título y pulsa Enter" enterkeyhint="done">
+  ${list.map(t=>{const cc=cardColor(t);const pl=pillar(t.pillar);return `<div class="mrow" data-a="openTask" data-id="${t.id}" style="--c:${cc||'var(--line)'}"><span class="cbar"></span><div class="mb"><div class="mt">${isDone(t)?'<span class="ck on">✓</span>':''}${esc(t.title||'Sin título')}</div><div class="chips">${sp?valPills(t,sp):''}${pl&&!hid.has('pillar')?pill({label:pl.name,color:pl.color}):''}</div>${(()=>{const it=vp.map(x=>{const v=valText(t,x);return v?`<span class="mp"><small>${esc(x.name)}</small>${v}</span>`:''}).join('');return it?`<div class="mprops">${it}</div>`:''})()}</div><div class="md ${isLate(t)?'late':''}">${esc(fmtD(t.date))}${(t.comments||[]).length?`<div style="margin-top:4px">${ic('msg',12)} ${t.comments.length}</div>`:''}</div></div>`}).join('')||'<div class="empty">No hay contenido con este filtro.</div>'}`}
 function vCalM(){const y=S.cal.y,m=S.cal.m;const first=new Date(y,m,1);const off=(first.getDay()+6)%7;const ts=filtered();const t0=todayS();
   const byDay={};ts.forEach(t=>{if(t.date)(byDay[t.date]=byDay[t.date]||[]).push(t)});
   let sel=U.calSel;if(!sel||+sel.slice(5,7)-1!==m||+sel.slice(0,4)!==y)sel=(t0.slice(0,7)===y+'-'+pad(m+1))?t0:iso(first);U.calSel=sel;
@@ -859,12 +918,12 @@ function renderApp(){
   document.documentElement.dataset.theme=['dark','brand'].includes(S.theme)?S.theme:'light';
   const app=$('#app');const a=document.activeElement;const id=a&&a.id&&app.contains(a)?a.id:null;let s1=null,s2=null;try{s1=a.selectionStart;s2=a.selectionEnd}catch(e){}
   const vw=$('#view');const st=vw?vw.scrollTop:0;const bd=$('.board');const sl=bd?bd.scrollLeft:0;const same=U.lastView===S.view+(S.view==='page'?S.pageId:'');
-  const m=isM();const V={overview:vOverview,board:vBoard,list:m?vListM:vList,calendar:m?vCalM:vCal,dashboard:vDash,pillars:vPillars,page:vPage}[S.view]||vOverview;
+  const m=isM();const V={overview:vOverview,board:vBoard,list:m?vListM:vList,calendar:m?vCalM:vCal,published:vPub,dashboard:vDash,pillars:vPillars,page:vPage}[S.view]||vOverview;
   const body=V();
   const bn=[['overview','Inicio','home'],['board','Board','board'],['calendar','Calendario','cal'],['list','Lista','list']];
   app.innerHTML=sidebar()+`<main>${header()}<div class="view${same?'':' anim'}" id="view">${body}</div></main>
   <nav class="bnav">${bn.map(([v,l,i])=>`<button class="${S.view===v?'on':''}" data-a="nav" data-v="${v}">${ic(i)}${l}</button>`).join('')}<button class="${['dashboard','pillars','page'].includes(S.view)||U.side?'on':''}" data-a="burger">${ic('more')}Más</button></nav>
-  ${S.view==='page'?'':`<button class="fab" data-a="newTask" title="Nuevo contenido">${ic('plus')}</button>`}`;
+  ${S.view==='page'?'':`<button class="fab" data-a="newTask" title="Nuevo contenido">${ic('plus')}</button>`}${bulkBar()}`;
   const tc=document.querySelector('meta[name="theme-color"]');if(tc)tc.content={dark:'#0d0e12',brand:'#0B1F1C'}[S.theme]||'#f4f4f7';
   const bdn=$('.board');if(bdn&&m){bdn.onscroll=()=>{const cs=bdn.querySelectorAll('.col');let i=0,best=1e9;cs.forEach((c,j)=>{const d=Math.abs(c.offsetLeft-bdn.scrollLeft-14);if(d<best){best=d;i=j}});if(i!==U.colI){U.colI=i;document.querySelectorAll('.colnav button').forEach((b,j)=>b.classList.toggle('on',j===i))}}}
   U.lastView=S.view+(S.view==='page'?S.pageId:'');navKeep();
@@ -1224,7 +1283,7 @@ const A={
   newProj(){const n=prompt('Nombre del nuevo proyecto','Nuevo proyecto');if(!n||!n.trim())return;const p=newProject(n.trim(),false);S.projects.push(p);S.cur=p.id;S.view='overview';U.f='';U.q='';save();renderApp()},
   delProj(){if(S.projects.length<2){alert('Debe quedar al menos un proyecto.');return}if(!confirm('¿Eliminar este proyecto y todo su contenido? No se puede deshacer.'))return;S.projects=S.projects.filter(p=>p.id!==S.cur);S.cur=S.projects[0].id;S.view='overview';save();renderApp()},
   projEmoji(){const e=prompt('Emoji o icono del proyecto',P().emoji);if(e&&e.trim()){P().emoji=e.trim().slice(0,4);save();renderApp()}},
-  nav(el){S.view=el.dataset.v;U.side=false;navSave();renderApp()},
+  nav(el){S.view=el.dataset.v;U.side=false;U.selT.clear();navSave();renderApp()},
   theme(el){S.theme=el.dataset.t||'light';try{localStorage.setItem(KEY+'-theme',S.theme)}catch(e){}save();renderApp()},
   exportData(){const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='content-studio-'+todayS()+'.json';document.body.appendChild(a);a.click();a.remove()},
   importData(){$('#importFile').click()},
@@ -1233,7 +1292,20 @@ const A={
     if(d.p){if(d.p==='__pillar')t.pillar=d.v||null;else t.props[d.p]=d.v||null}
     if(!d.p&&U.f.startsWith('pil:'))t.pillar=U.f.slice(4);
     p.tasks.push(t);save();renderApp();openM({m:'task',id:t.id});setTimeout(()=>{const n=$('#tTitle');n&&n.focus()},20)},
-  openTask(el){openM({m:'task',id:el.dataset.id})},
+  openTask(el,e){if(el.classList.contains('tcard')&&(U.selT.size||(e&&(e.ctrlKey||e.metaKey||e.shiftKey)))){A.tSel(el);return}openM({m:'task',id:el.dataset.id})},
+  tSel(el){const id=el.dataset.id;if(U.selT.has(id))U.selT.delete(id);else U.selT.add(id);renderApp()},
+  selClear(){U.selT.clear();renderApp()},
+  selAllCol(el){const col=el.closest('.col');if(!col)return;col.querySelectorAll('.tcard').forEach(c=>U.selT.add(c.dataset.drag));renderApp()},
+  bulkMove(el){const p=el.dataset.p,v=el.dataset.v;const ts=[...U.selT].map(task).filter(Boolean);const pr=P();const mx=Math.max(0,...pr.tasks.map(x=>x.order||0));
+    ts.sort((a,b)=>(a.order||0)-(b.order||0)).forEach((t,i)=>{if(p==='__pillar')t.pillar=v||null;else t.props[p]=v||null;t.order=mx+i+1});
+    const sp=prop(pr.statusPropId);const d=sp&&p===sp.id&&(sp.options.find(o=>o.id===v)||{}).done;toast(ts.length+(ts.length>1?' contenidos movidos':' contenido movido')+(d?' · guardado en Publicados':''));U.selT.clear();save();renderApp()},
+  bulkDel(){const n=U.selT.size;if(!n||!confirm('¿Eliminar '+n+(n>1?' contenidos':' contenido')+'? No se puede deshacer.'))return;const p=P();p.tasks=p.tasks.filter(t=>!U.selT.has(t.id));U.selT.clear();save();renderApp();toast('Eliminado')},
+  unpub(el){const p=P();const sp=prop(p.statusPropId);const t=task(el.dataset.id);if(!sp||!t)return;const i=sp.options.findIndex(o=>o.done);const back=sp.options.slice(0,i<0?sp.options.length:i).filter(o=>!o.done).pop();t.props[sp.id]=back?back.id:null;save();renderApp();toast('Devuelto al board'+(back?' en '+back.label:''))},
+  lcolMenu(el){const p=P();const hid=new Set(p.listHidden||[]);const cols=[['date','Publicación'],['pillar','Pilar']].concat(p.props.map(x=>[x.id,x.name]));
+    popOpen(el,`<div class="pgpop-h">Columnas visibles</div>`+cols.map(([k,l])=>`<button class="lcol ${hid.has(k)?'':'on'}" data-a="lcolTg" data-k="${k}"><span class="pi">${ic('check',14)}</span><span><b>${esc(l)}</b></span></button>`).join('')+`<div class="pgpop-sep"></div><button data-a="lcolAll"><span class="pi">${ic('list',14)}</span><span><b>Mostrar todas</b></span></button>`)},
+  lcolTg(el){const p=P();const h=new Set(p.listHidden||[]);const k=el.dataset.k;if(h.has(k))h.delete(k);else h.add(k);p.listHidden=[...h];el.classList.toggle('on',!h.has(k));save();renderApp()},
+  lcolAll(){P().listHidden=[];popClose();save();renderApp()},
+  lpubTg(){const p=P();p.listHidePub=!p.listHidePub;save();renderApp()},
   closeM(){closeM()},
   ovClick(el,e){if(e.target===el)closeM()},
   delTask(el){if(!confirm('¿Eliminar este contenido?'))return;const p=P();p.tasks=p.tasks.filter(t=>t.id!==el.dataset.id);U.ms=U.ms.filter(m=>!(m.m==='task'&&m.id===el.dataset.id));save();renderApp();renderModal()},
@@ -1506,9 +1578,12 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){if(e.target.id==='cmtNew'){e.preventDefault();A.cmtAdd();return}if(e.target.id==='cmtEditBox'){e.preventDefault();A.cmtSave({dataset:{id:U.cmtEdit}});return}}
   if(e.key==='Escape'&&U.cmtEdit){U.cmtEdit=null;renderModal();return}
   if(e.key==='Escape'&&U.ms.length){closeM();return}
+  if(e.key==='Escape'&&U.selT.size){U.selT.clear();renderApp();return}
   if(e.key==='Enter'&&!e.isComposing){const el=e.target.closest&&e.target.closest('[data-k]');if(el&&K[el.dataset.k]){e.preventDefault();K[el.dataset.k](el)}}});
 document.addEventListener('mousedown',e=>{if(e.target.closest('[data-a="fmt"]'))e.preventDefault()});
-document.addEventListener('dragstart',e=>{const c=e.target.closest&&e.target.closest('[data-drag]');if(!c)return;U.drag=c.dataset.drag;e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',U.drag);setTimeout(()=>c.classList.add('dragging'),0)});
+document.addEventListener('dragstart',e=>{const c=e.target.closest&&e.target.closest('[data-drag]');if(!c)return;U.drag=c.dataset.drag;e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',U.drag);const many=U.selT.has(U.drag)&&U.selT.size>1;
+  if(many){const g=document.createElement('div');g.className='dragcount';g.textContent=U.selT.size+' contenidos';document.body.appendChild(g);try{e.dataTransfer.setDragImage(g,20,20)}catch(_){}setTimeout(()=>g.remove(),0)}
+  setTimeout(()=>{c.classList.add('dragging');if(many)document.querySelectorAll('.tcard.sel').forEach(x=>x.classList.add('dragging'))},0)});
 function dropBefore(col,y){for(const c of col.querySelectorAll('.tcard')){if(c.dataset.drag===U.drag)continue;const r=c.getBoundingClientRect();if(y<r.top+r.height/2)return c}return null}
 function clearIns(){document.querySelectorAll('.drop-before').forEach(n=>n.classList.remove('drop-before'));document.querySelectorAll('.drop-end').forEach(n=>n.classList.remove('drop-end'))}
 document.addEventListener('dragend',()=>{U.drag=null;clearIns();document.querySelectorAll('.dragging,.over').forEach(n=>n.classList.remove('dragging','over'))});
@@ -1516,13 +1591,15 @@ document.addEventListener('dragover',e=>{if(!U.drag){const d=e.target.closest&&e
 document.addEventListener('dragleave',e=>{const d=e.target.closest&&e.target.closest('.drop');if(d&&!d.contains(e.relatedTarget))d.classList.remove('over')});
 document.addEventListener('drop',e=>{if(!U.drag){const d=e.target.closest&&e.target.closest('.drop');if(d&&e.dataTransfer&&e.dataTransfer.files.length){e.preventDefault();d.classList.remove('over');readAsana(e.dataTransfer.files[0])}return}const z=e.target.closest&&e.target.closest('[data-drop]');if(!z||!U.drag)return;e.preventDefault();clearIns();const t=task(U.drag);if(!t){U.drag=null;return}applyDrop(z,e.clientY,t)});
 function applyDrop(z,y,t){const k=z.dataset.drop;
+  const many=(U.selT.has(t.id)&&U.selT.size>1)?[...U.selT].map(task).filter(Boolean).sort((a,b)=>(a.order||0)-(b.order||0)):[t];const mv=new Set(many.map(x=>x.id));
   if(k==='col'){const p=z.dataset.p,v=z.dataset.val;
-    const ids=[...z.querySelectorAll('.tcard')].map(c=>c.dataset.drag).filter(id=>id!==t.id);const b=dropBefore(z,y);
-    const at=b?ids.indexOf(b.dataset.drag):ids.length;const prev=at>0?task(ids[at-1]):null,next=at<ids.length?task(ids[at]):null;
-    if(prev&&next)t.order=(prev.order+next.order)/2;else if(prev)t.order=prev.order+1;else if(next)t.order=next.order-1;
-    if(p==='__pillar')t.pillar=v||null;else t.props[p]=v||null}
-  else if(k==='day')t.date=z.dataset.date;else if(k==='nodate')t.date='';
-  U.drag=null;save();renderApp()}
+    const ids=[...z.querySelectorAll('.tcard')].map(c=>c.dataset.drag).filter(id=>!mv.has(id));let b=dropBefore(z,y);while(b&&mv.has(b.dataset.drag))b=b.nextElementSibling&&b.nextElementSibling.classList.contains('tcard')?b.nextElementSibling:null;
+    const at=b?ids.indexOf(b.dataset.drag):ids.length;const prev=at>0?task(ids[at-1]):null,next=at>=0&&at<ids.length?task(ids[at]):null;const n=many.length;
+    many.forEach((x,i)=>{if(prev&&next)x.order=prev.order+(next.order-prev.order)*(i+1)/(n+1);else if(prev)x.order=prev.order+i+1;else if(next)x.order=next.order-(n-i);else x.order=i+1;
+      if(p==='__pillar')x.pillar=v||null;else x.props[p]=v||null})}
+  else if(k==='pub'){const sp=prop(P().statusPropId);const d=sp&&sp.options.find(o=>o.done);if(d){many.forEach(x=>x.props[sp.id]=d.id);toast((many.length>1?many.length+' contenidos publicados':'Publicado')+' · guardado en Publicados')}}
+  else if(k==='day')many.forEach(x=>x.date=z.dataset.date);else if(k==='nodate')many.forEach(x=>x.date='');
+  if(many.length>1)U.selT.clear();U.drag=null;save();renderApp()}
 function markZone(z,y){document.querySelectorAll('.over').forEach(n=>{if(n!==z)n.classList.remove('over')});clearIns();if(!z)return;z.classList.add('over');if(z.dataset.drop==='col'){const b=dropBefore(z,y);if(b)b.classList.add('drop-before');else z.classList.add('drop-end')}}
 /* touch: mantener pulsado para arrastrar */
 let TD=null;
